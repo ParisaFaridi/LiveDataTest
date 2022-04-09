@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">LiveDataTest</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="_0">0</string>
+    <string name="question_number">Question Number:</string>
+    <string name="score">Score:</string>
 </resources>
