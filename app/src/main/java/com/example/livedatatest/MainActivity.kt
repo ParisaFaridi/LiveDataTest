@@ -47,6 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.buttonNext.setOnClickListener { vModel.nextClicked() }
         binding.buttonBack.setOnClickListener {  vModel.backClicked()}
+        binding.tvAnswer1.setOnClickListener { vModel.calScore() }
+        binding.tvAnswer2.setOnClickListener { vModel.calScore() }
 
     }
 }
