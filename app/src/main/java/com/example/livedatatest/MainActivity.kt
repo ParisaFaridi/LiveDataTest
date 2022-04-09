@@ -35,11 +35,15 @@ class MainActivity : AppCompatActivity() {
         val questionObserver = Observer<String> { question ->
             binding.tvQuestion.text = question
         }
+        val messageLiveDataObserver = Observer<String> {
+            binding.tvMessage.text = it
+        }
 
         vModel.questionNumberLiveData.observe(this, questionNumberObserver)
         vModel.btnNextEnabledLiveData.observe(this,btnNextEnabledObserver)
         vModel.btnBackEnabledLiveData.observe(this,btnBackEnabledObserver)
         vModel.questionLiveData.observe(this,questionObserver)
+        vModel.messageLiveData.observe(this,messageLiveDataObserver)
 
         binding.buttonNext.setOnClickListener { vModel.nextClicked() }
         binding.buttonBack.setOnClickListener {  vModel.backClicked()}
