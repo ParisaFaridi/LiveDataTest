@@ -1,6 +1,7 @@
 package com.example.livedatatest
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 
 class MainViewModel : ViewModel() {
@@ -11,6 +12,12 @@ class MainViewModel : ViewModel() {
     val btnNextEnabledLiveData = MutableLiveData(true)
     val btnBackEnabledLiveData = MutableLiveData(true)
     val questionLiveData = MutableLiveData(QuestionRepository.questionList[0].text)
+    val messageLiveData = Transformations.map(questionNumberLiveData) {
+        when{
+            questionNumberLiveData.value!! < questionCount/2 -> "Hurry up!"
+            else -> "You're almost there!"
+        }
+    }
 
     fun nextClicked() {
         btnBackEnabledLiveData.value = true
