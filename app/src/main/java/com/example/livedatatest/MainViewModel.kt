@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class MainViewModel : ViewModel() {
 
     val questionCount = QuestionRepository.questionList.size
-
+    val scoreLiveData = MutableLiveData(0)
     val questionNumberLiveData = MutableLiveData(0)
     val btnNextEnabledLiveData = MutableLiveData(true)
     val btnBackEnabledLiveData = MutableLiveData(true)
