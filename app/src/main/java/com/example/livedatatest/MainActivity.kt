@@ -38,17 +38,25 @@ class MainActivity : AppCompatActivity() {
         val messageLiveDataObserver = Observer<String> {
             binding.tvMessage.text = it
         }
+        val answer1Observer =Observer<Int>{
+            binding.tvAnswer1.text = it.toString()
+        }
+        val answer2Observer =Observer<Int>{
+            binding.tvAnswer2.text = it.toString()
+        }
 
         vModel.questionNumberLiveData.observe(this, questionNumberObserver)
         vModel.btnNextEnabledLiveData.observe(this,btnNextEnabledObserver)
         vModel.btnBackEnabledLiveData.observe(this,btnBackEnabledObserver)
         vModel.questionLiveData.observe(this,questionObserver)
         vModel.messageLiveData.observe(this,messageLiveDataObserver)
+        vModel.answer1.observe(this,answer1Observer)
+        vModel.answer2.observe(this,answer2Observer)
 
         binding.buttonNext.setOnClickListener { vModel.nextClicked() }
         binding.buttonBack.setOnClickListener {  vModel.backClicked()}
-        binding.tvAnswer1.setOnClickListener { vModel.calScore() }
-        binding.tvAnswer2.setOnClickListener { vModel.calScore() }
+//        binding.tvAnswer1.setOnClickListener { vModel.calScore() }
+//        binding.tvAnswer2.setOnClickListener { vModel.calScore() }
 
     }
 }
