@@ -1,3 +1,9 @@
 package com.example.livedatatest
 
-class Question(var text:String,var correctAnswer:Int)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Question(
+    @PrimaryKey(autoGenerate = true) val id :Int,
+    val text:String,val correctAnswer:Int)
