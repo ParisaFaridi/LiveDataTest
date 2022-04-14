@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
 
-        binding.progressBar.max = vModel.questionCount
+        binding.progressBar.max = vModel.questionCount.value!!
 
         val questionNumberObserver = Observer<Int> { number ->
             binding.tvNumber.text = number.toString()
@@ -38,11 +38,11 @@ class MainActivity : AppCompatActivity() {
         val messageLiveDataObserver = Observer<String> {
             binding.tvMessage.text = it
         }
-        val answer1Observer =Observer<Int>{
-            binding.tvAnswer1.text = it.toString()
+        val scoreObserver = Observer<Int>{
+            binding.tvQuestion.text = it.toString()
         }
-        val answer2Observer =Observer<Int>{
-            binding.tvAnswer2.text = it.toString()
+        val countObserver = Observer<Int> {
+            binding.tvCount.text = it.toString()
         }
 
         vModel.questionNumberLiveData.observe(this, questionNumberObserver)
@@ -50,13 +50,14 @@ class MainActivity : AppCompatActivity() {
         vModel.btnBackEnabledLiveData.observe(this,btnBackEnabledObserver)
         vModel.questionLiveData.observe(this,questionObserver)
         vModel.messageLiveData.observe(this,messageLiveDataObserver)
-        vModel.answer1.observe(this,answer1Observer)
-        vModel.answer2.observe(this,answer2Observer)
+        vModel.score.observe(this,scoreObserver)
 
+        vModel.questionCount.observe(this,countObserver)
         binding.buttonNext.setOnClickListener { vModel.nextClicked() }
         binding.buttonBack.setOnClickListener {  vModel.backClicked()}
-//        binding.tvAnswer1.setOnClickListener { vModel.calScore() }
-//        binding.tvAnswer2.setOnClickListener { vModel.calScore() }
+
+        binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
+
 
     }
 }
