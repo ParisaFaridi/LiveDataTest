@@ -1,9 +1,8 @@
 package com.example.livedatatest
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import com.example.livedatatest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -20,41 +19,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
 
-        binding.progressBar.max = vModel.questionCount.value!!
+        binding.progressBar.max = 5
 
-        val questionNumberObserver = Observer<Int> { number ->
-            binding.tvNumber.text = number.toString()
-            binding.progressBar.progress = number
+        vModel.questionNumberLiveData.observe(this) {
+            binding.tvNumber.text = it.toString()
+            if (it != null) {
+                binding.progressBar.progress = it
+            }
         }
-        val btnNextEnabledObserver = Observer<Boolean> { enabled ->
-            binding.buttonNext.isEnabled = enabled
-        }
-        val btnBackEnabledObserver = Observer<Boolean> { enabled ->
-            binding.buttonBack.isEnabled = enabled
-        }
-        val questionObserver = Observer<String> { question ->
-            binding.tvQuestion.text = question
-        }
-        val messageLiveDataObserver = Observer<String> {
-            binding.tvMessage.text = it
-        }
-        val scoreObserver = Observer<Int>{
-            binding.tvQuestion.text = it.toString()
-        }
-        val countObserver = Observer<Int> {
-            binding.tvCount.text = it.toString()
-        }
+        vModel.btnNextEnabledLiveData.observe(this) { binding.btnNext.isEnabled = it }
+        vModel.btnBackEnabledLiveData.observe(this) { binding.btnBack.isEnabled = it }
+        vModel.questionLiveData.observe(this) { binding.tvQuestion.text = it.text }
+        vModel.scoreLiveData.observe(this) { binding.tvQuestion.text = it.toString() }
+        vModel.questionCount.observe(this) { binding.tvCount.text = it.toString() }
+        //vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
 
-        vModel.questionNumberLiveData.observe(this, questionNumberObserver)
-        vModel.btnNextEnabledLiveData.observe(this,btnNextEnabledObserver)
-        vModel.btnBackEnabledLiveData.observe(this,btnBackEnabledObserver)
-        vModel.questionLiveData.observe(this,questionObserver)
-        vModel.messageLiveData.observe(this,messageLiveDataObserver)
-        vModel.score.observe(this,scoreObserver)
-
-        vModel.questionCount.observe(this,countObserver)
-        binding.buttonNext.setOnClickListener { vModel.nextClicked() }
-        binding.buttonBack.setOnClickListener {  vModel.backClicked()}
+        binding.btnNext.setOnClickListener {
+            if (binding.etAnswer.text.toString().isEmpty())
+                return@setOnClickListener
+            vModel.nextLevel(binding.etAnswer.text.toString().toInt())
+            vModel.nextClicked()
+        }
+        binding.btnBack.setOnClickListener { vModel.backClicked() }
 
         binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
 

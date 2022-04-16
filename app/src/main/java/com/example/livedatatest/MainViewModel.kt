@@ -1,52 +1,74 @@
 package com.example.livedatatest
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 
-class MainViewModel : ViewModel() {
+class MainViewModel(app: Application):AndroidViewModel(app) {
 
-    val questionCount = QuestionRepository.questionList.size
+    private val repository: QuestionRepository
+    var questionCount : LiveData<Int>
+    init {
+        val questionDao = QuestionDataBase.getDataBase(app)?.questionDao()
+        repository = questionDao?.let { QuestionRepository(it) }!!
+        repository.addTestData()
+        repository.getQuestionById(2)
+        questionCount = repository.getCount()
+    }
+
+    val questionLiveData = MutableLiveData(repository.newRandomQuestion())
+    val questionNumberLiveData by lazy{ MutableLiveData(questionLiveData.value?.id)}
+
     val scoreLiveData = MutableLiveData(0)
-    val questionNumberLiveData = MutableLiveData(0)
-    val answer1 = MutableLiveData(4)
-    val answer2= MutableLiveData((-10..100).random())
+
     val btnNextEnabledLiveData = MutableLiveData(true)
     val btnBackEnabledLiveData = MutableLiveData(true)
-    val questionLiveData = MutableLiveData(QuestionRepository.questionList[0].text)
-    val messageLiveData: LiveData<String> = Transformations.map(questionNumberLiveData) {
-        when{
-            questionNumberLiveData.value!! < questionCount/2 -> "Hurry up!"
-            else -> "You're almost there!"
-        }
-    }
+//    val messageLiveData: LiveData<String> = Transformations.map(questionNumberLiveData) {
+//        when{
+//            questionNumberLiveData.value!! < questionCount.value?.div(2)!! -> "Hurry up!"
+//            else -> "You're almost there!"
+//        }
+//    }
 
     fun nextClicked() {
         btnBackEnabledLiveData.value = true
-        if (questionNumberLiveData.value!! < QuestionRepository.questionList.size) {
-            answer1.value = QuestionRepository.questionList[questionNumberLiveData.value!!].correctAnswer
-            answer2.value = (-10..100).random()
+        if (questionNumberLiveData.value!! < questionCount.value!!) {
             questionNumberLiveData.value = questionNumberLiveData.value?.plus(1)
-            if (questionNumberLiveData.value == questionCount)
+
+            if (questionNumberLiveData.value == questionCount.value)
                 btnNextEnabledLiveData.value = false
             questionNumberLiveData.value?.let {
-                questionLiveData.value = QuestionRepository.questionList[it-1].text
+                questionLiveData.value = repository.getQuestionById(it -1)
+                    //repository.questionList[it-1].text
             }
-
         }
     }
     fun backClicked(){
         btnNextEnabledLiveData.value = true
         if (questionNumberLiveData.value!! > 0){
-            answer1.value = QuestionRepository.questionList[questionNumberLiveData.value!!].correctAnswer
-            answer2.value = (-10..100).random()
             questionNumberLiveData.value = questionNumberLiveData.value?.minus(1)
             if (questionNumberLiveData.value == 0)
                 btnBackEnabledLiveData.value = false
             questionNumberLiveData.value?.let {
-                questionLiveData.value = QuestionRepository.questionList[it].text
+                questionLiveData.value = repository.getQuestionById(it -1)
+                    //repository.questionList[it].text
             }
         }
+    }
+
+    fun nextLevel(answer: Int){
+        if (isCorrect(answer)) {
+            scoreLiveData.value = scoreLiveData.value?.plus(5)
+        } else {
+            scoreLiveData.value = scoreLiveData.value?.minus(2)
+        }
+    }
+
+    private fun isCorrect(answer:Int): Boolean {
+        return answer == questionLiveData.value?.correctAnswer
+    }
+
+    fun newRandomQuestion(){
+        questionLiveData.value = repository.newRandomQuestion()
+        repository.addQuestion(questionLiveData.value!!)
     }
 }
