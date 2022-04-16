@@ -6,6 +6,6 @@
     <string name="question_number">Question Number:</string>
     <string name="score">Score:</string>
     <string name="answer">Answer</string>
-    <string name="question_count">Question Count</string>
+    <string name="question_count">Question Count:</string>
     <string name="randomq">RandomQ</string>
 </resources>
