@@ -6,20 +6,17 @@ import androidx.room.*
 @Dao
 interface QuestionDao {
 
-    @Insert
-    fun addQuestion(vararg question: Question)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg question: Question)
 
     @Query("SELECT * FROM Question")
-    fun getAll(): List<Question>
+    fun getAll(): LiveData<List<Question>>
 
-    @Query("SELECT count(*) FROM Question")
+    @Query("SELECT count(id) FROM Question")
     fun getCount():LiveData<Int>
 
     @Query("SELECT * FROM Question WHERE   id = (:id) Limit 1")
     fun getQuestionById(id:Int):Question
-
-    @Insert (onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg questions: Question)
 
     @Delete
     fun delete(question : Question)
