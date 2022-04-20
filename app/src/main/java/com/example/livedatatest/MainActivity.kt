@@ -29,16 +29,17 @@ class MainActivity : AppCompatActivity() {
         }
         vModel.btnNextEnabledLiveData.observe(this) { binding.btnNext.isEnabled = it }
         vModel.btnBackEnabledLiveData.observe(this) { binding.btnBack.isEnabled = it }
-        vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
+        //vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
+        vModel.scoreLiveData.observe(this) { binding.tvScore.text = it.toString() }
+
         //onClickListeners
         binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
         binding.btnNext.setOnClickListener { vModel.nextClicked() }
         binding.btnBack.setOnClickListener { vModel.backClicked() }
+        //binding.btnAnswer.setOnClickListener { vModel.updateScore(binding.etAnswer.text.toString().toInt()) }
 
 
-//        vModel.scoreLiveData.observe(this) { binding.tvQuestion.text = it.toString() }
-//        vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
-//
+
 
     }
 }
