@@ -7,16 +7,26 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository = QuestionRepository()
     var questionCount: LiveData<Int>
-    val questionLiveData by lazy { MutableLiveData(repository.getQuestionById(0)) }
-    val questionNumberLiveData by lazy { MutableLiveData(0) }
-    val progressBarMaxLiveData by lazy { MutableLiveData(repository.getCount()?.value) }
-    val btnNextEnabledLiveData = MutableLiveData(true)
-    val btnBackEnabledLiveData = MutableLiveData(false)
 
     init {
         repository.initDB(app.applicationContext)
         repository.addTestData()
         questionCount = repository.getCount() ?: MutableLiveData(0)
+    }
+
+    val questionLiveData by lazy { MutableLiveData(repository.getQuestionById(0)) }
+    val questionNumberLiveData by lazy { MutableLiveData(0) }
+    val progressBarMaxLiveData by lazy { MutableLiveData(repository.getCount()?.value) }
+    val btnNextEnabledLiveData = MutableLiveData(true)
+    val btnBackEnabledLiveData = MutableLiveData(false)
+    val messageLiveData by lazy {
+        Transformations.map(questionNumberLiveData) {
+            when {
+                questionLiveData.value == null ->"Hurry up!"
+                questionNumberLiveData.value!! < questionCount.value?.div(2)!! -> "Hurry up!"
+                else -> "You're almost there!"
+            }
+        }
     }
 
     fun newRandomQuestion() {
@@ -50,14 +60,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-
 //    val scoreLiveData = MutableLiveData(0)
-//    val messageLiveData: LiveData<String> = Transformations.map(questionNumberLiveData) {
-//        when{
-//            questionNumberLiveData.value!! < questionCount.value?.div(2)!! -> "Hurry up!"
-//            else -> "You're almost there!"
-//        }
-//    }
+
 //    fun addScore(answer: Int) {
 //        if (isCorrect(answer)) {
 //            scoreLiveData.value = scoreLiveData.value?.plus(5)

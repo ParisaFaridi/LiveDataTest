@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         }
         vModel.btnNextEnabledLiveData.observe(this) { binding.btnNext.isEnabled = it }
         vModel.btnBackEnabledLiveData.observe(this) { binding.btnBack.isEnabled = it }
+        vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
         //onClickListeners
         binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
         binding.btnNext.setOnClickListener { vModel.nextClicked() }
