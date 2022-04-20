@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
         binding.btnNext.setOnClickListener { vModel.nextClicked() }
         binding.btnBack.setOnClickListener { vModel.backClicked() }
-        //binding.btnAnswer.setOnClickListener { vModel.updateScore(binding.etAnswer.text.toString().toInt()) }
+        binding.btnAnswer.setOnClickListener { vModel.updateScore(binding.etAnswer.text.toString().toInt()) }
 
 
 

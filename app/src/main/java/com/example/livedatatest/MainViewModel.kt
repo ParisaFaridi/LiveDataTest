@@ -61,4 +61,15 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             }
         }
     }
+    fun updateScore(answer:Int){
+        if (isCorrect(answer)) {
+            scoreLiveData.value = scoreLiveData.value?.plus(5)
+        } else {
+            scoreLiveData.value = scoreLiveData.value?.minus(2)
+        }
+    }
+
+    private fun isCorrect(answer: Int): Boolean {
+        return answer == questionLiveData.value?.correctAnswer
+    }
 }
