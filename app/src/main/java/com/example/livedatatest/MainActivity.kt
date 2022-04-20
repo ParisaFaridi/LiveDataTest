@@ -18,32 +18,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-
-        binding.progressBar.max = 5
-
-        vModel.questionNumberLiveData.observe(this) {
-            binding.tvNumber.text = it.toString()
+        //observers:
+        vModel.questionCount.observe(this) { binding.tvCount.text = it.toString() }
+        vModel.progressBarMaxLiveData.observe(this){binding.progressBar.max = it ?: 2}
+        vModel.questionNumberLiveData.observe(this) { binding.tvNumber.text = it.toString() }
+        vModel.questionLiveData.observe(this) {
             if (it != null) {
-                binding.progressBar.progress = it
+                binding.tvQuestion.text = it.text
             }
         }
         vModel.btnNextEnabledLiveData.observe(this) { binding.btnNext.isEnabled = it }
         vModel.btnBackEnabledLiveData.observe(this) { binding.btnBack.isEnabled = it }
-        vModel.questionLiveData.observe(this) { binding.tvQuestion.text = it.text }
-        vModel.scoreLiveData.observe(this) { binding.tvQuestion.text = it.toString() }
-        vModel.questionCount.observe(this) { binding.tvCount.text = it.toString() }
-        //vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
-
-        binding.btnNext.setOnClickListener {
-            if (binding.etAnswer.text.toString().isEmpty())
-                return@setOnClickListener
-            vModel.nextLevel(binding.etAnswer.text.toString().toInt())
-            vModel.nextClicked()
-        }
+        //onClickListeners
+        binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
+        binding.btnNext.setOnClickListener { vModel.nextClicked() }
         binding.btnBack.setOnClickListener { vModel.backClicked() }
 
-        binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
 
+//        vModel.scoreLiveData.observe(this) { binding.tvQuestion.text = it.toString() }
+//        vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
+//
 
     }
 }
