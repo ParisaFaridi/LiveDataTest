@@ -3,17 +3,18 @@ package com.example.livedatatest
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.example.livedatatest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+
     private val vModel: MainViewModel by viewModels()
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initViews()
     }
 
@@ -21,22 +22,22 @@ class MainActivity : AppCompatActivity() {
 
         //observers:
         vModel.questionCount.observe(this) {
-            binding.tvCount.text = it.toString()
+            binding.questionCount = it
             binding.progressBar.max = it
 
         }
         vModel.questionNumberLiveData.observe(this) {
-            binding.tvNumber.text = it.toString()
+            binding.questionNumber = it
             binding.progressBar.progress = it
         }
         vModel.questionLiveData.observe(this) {
             if (it != null) {
-                binding.tvQuestion.text = it.text
+                binding.question = it.text
             }
         }
         vModel.btnNextEnabledLiveData.observe(this) { binding.btnNext.isEnabled = it }
         vModel.btnBackEnabledLiveData.observe(this) { binding.btnBack.isEnabled = it }
-        vModel.scoreLiveData.observe(this) { binding.tvScore.text = it.toString() }
+        vModel.scoreLiveData.observe(this) { binding.score = it}
 
         //onClickListeners
         binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }

@@ -9,4 +9,6 @@
     <string name="question_count">Question Count:</string>
     <string name="randomq">RandomQ</string>
     <string name="submit">Submit</string>
+    <string name="hurry">Hurry up!</string>
+    <string name="almost">Almost There!</string>
 </resources>
