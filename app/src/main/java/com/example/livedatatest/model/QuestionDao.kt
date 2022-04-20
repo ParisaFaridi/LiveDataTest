@@ -1,4 +1,4 @@
-package com.example.livedatatest
+package com.example.livedatatest.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
@@ -16,7 +16,7 @@ interface QuestionDao {
     fun getCount():LiveData<Int>
 
     @Query("SELECT * FROM Question WHERE   id = (:id) Limit 1")
-    fun getQuestionById(id:Int):Question
+    fun getQuestionById(id:Int): Question
 
     @Delete
     fun delete(question : Question)

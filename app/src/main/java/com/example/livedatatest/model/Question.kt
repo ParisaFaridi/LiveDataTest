@@ -1,4 +1,4 @@
-package com.example.livedatatest
+package com.example.livedatatest.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

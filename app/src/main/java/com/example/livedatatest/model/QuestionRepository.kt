@@ -1,4 +1,4 @@
-package com.example.livedatatest
+package com.example.livedatatest.model
 
 import android.content.Context
 import androidx.lifecycle.LiveData
