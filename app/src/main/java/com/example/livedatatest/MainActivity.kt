@@ -18,10 +18,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
+
         //observers:
-        vModel.questionCount.observe(this) { binding.tvCount.text = it.toString() }
-        vModel.progressBarMaxLiveData.observe(this){binding.progressBar.max = it ?: 2}
-        vModel.questionNumberLiveData.observe(this) { binding.tvNumber.text = it.toString() }
+        vModel.questionCount.observe(this) {
+            binding.tvCount.text = it.toString()
+            binding.progressBar.max = it
+
+        }
+        vModel.questionNumberLiveData.observe(this) {
+            binding.tvNumber.text = it.toString()
+            binding.progressBar.progress = it
+        }
         vModel.questionLiveData.observe(this) {
             if (it != null) {
                 binding.tvQuestion.text = it.text
@@ -29,17 +36,18 @@ class MainActivity : AppCompatActivity() {
         }
         vModel.btnNextEnabledLiveData.observe(this) { binding.btnNext.isEnabled = it }
         vModel.btnBackEnabledLiveData.observe(this) { binding.btnBack.isEnabled = it }
-        //vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
         vModel.scoreLiveData.observe(this) { binding.tvScore.text = it.toString() }
 
         //onClickListeners
         binding.btnRandom.setOnClickListener { vModel.newRandomQuestion() }
         binding.btnNext.setOnClickListener { vModel.nextClicked() }
         binding.btnBack.setOnClickListener { vModel.backClicked() }
-        binding.btnAnswer.setOnClickListener { vModel.updateScore(binding.etAnswer.text.toString().toInt()) }
+        binding.btnAnswer.setOnClickListener {
+            vModel.updateScore(
+                binding.etAnswer.text.toString().toInt()
+            )
+        }
 
-
-
-
+        //vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
     }
 }
