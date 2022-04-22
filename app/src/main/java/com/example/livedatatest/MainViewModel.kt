@@ -11,7 +11,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository = QuestionRepository()
     var questionCount: LiveData<Int>
-    lateinit var questionList: LiveData<List<Question>>
+    var questionList: LiveData<List<Question>>
 
     init {
         repository.initDB(app.applicationContext)

@@ -1,18 +1,15 @@
 package com.example.livedatatest
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.livedatatest.databinding.QuestionListItemViewBinding
 import com.example.livedatatest.model.Question
 
-class QuestionAdapter() : ListAdapter<Question,QuestionAdapter.ItemHolder>(QuestionDiffCallback) {
+class QuestionAdapter : ListAdapter<Question,QuestionAdapter.ItemHolder>(QuestionDiffCallback) {
 
     class ItemHolder(val binding: QuestionListItemViewBinding):RecyclerView.ViewHolder(binding.root)
 
