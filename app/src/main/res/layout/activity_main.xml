@@ -31,7 +31,8 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
             android:text="@string/question_number"
             android:textSize="24sp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -62,7 +63,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/btn_back"
             app:layout_constraintTop_toBottomOf="@+id/btn_answer"
-            app:layout_constraintVertical_bias="0.256" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -87,8 +88,8 @@
             android:layout_marginTop="28dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
-            android:textSize="22sp"
             android:text="@{question}"
+            android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,20 +114,20 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="24dp"
             android:gravity="center"
+            android:text="@{question_number >= question_count/2 ? @string/almost : @string/hurry }"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progressBar"
-            android:text="@{question_number >= question_count/2 ? @string/almost : @string/hurry }"/>
+            app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
         <TextView
             android:id="@+id/tv_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="@{score.toString()}"
             android:background="@{score &lt; 6 ? @color/red : score >5  &amp;&amp; score &lt; 20 ? @color/yellow : @color/green}"
+            android:text="@{score.toString()}"
             android:textSize="26sp"
             app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="@+id/textView6" />
@@ -160,8 +161,8 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="68dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
             android:text="@string/question_count"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -172,8 +173,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textSize="24sp"
             android:text="@{question_count.toString()}"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toTopOf="@+id/textView4"
@@ -201,5 +202,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_answer" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/question_rv"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/btn_random" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
