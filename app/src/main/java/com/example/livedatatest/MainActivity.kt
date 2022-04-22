@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initViews()
+
     }
 
     private fun initViews() {
@@ -50,5 +51,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         //vModel.messageLiveData.observe(this){binding.tvMessage.text = it}
+
+        vModel.questionList.observe(this){
+            if ( it != null){
+                val adapter = QuestionAdapter()
+                binding.questionRv.adapter = adapter
+                adapter.submitList(it)
+            }
+        }
     }
 }
