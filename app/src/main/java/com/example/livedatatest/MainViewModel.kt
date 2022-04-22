@@ -4,17 +4,20 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.livedatatest.model.Question
 import com.example.livedatatest.model.QuestionRepository
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val repository = QuestionRepository()
     var questionCount: LiveData<Int>
+    lateinit var questionList: LiveData<List<Question>>
 
     init {
         repository.initDB(app.applicationContext)
         repository.addTestData()
         questionCount = repository.getCount() ?: MutableLiveData(0)
+        questionList = repository.questionList
     }
 
     val questionLiveData by lazy { MutableLiveData(repository.getQuestionById(1)) }
